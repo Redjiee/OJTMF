@@ -70,8 +70,8 @@ const TransactionHistory = () => {
             {/* Left Side - Profile Info */}
             <div className="w-1/3 bg-white shadow-lg rounded-lg p-6 mr-6">
               <div className="flex flex-col items-center">
-                <div className="bg-gray-300 w-32 h-32 rounded-full flex items-center justify-center mb-4">
-                  <img src={user.qr} alt="Profile" className="w-full h-full rounded-full object-cover" />
+              <div className="bg-gray-1000 w-32 h-32 sm:w-48 sm:h-48 md:w-64 md:h-64 lg:w-80 lg:h-80 rounded-full flex items-center justify-center mb-4">
+              <img src={user.qr} alt="Profile" className="w-full h-full rounded-full object-cover" />
                 </div>
                 <h2 className="text-xl font-bold text-center">{user.name}</h2>
                 <p className="text-gray-600 text-center">{user.city}, {user.country}</p>

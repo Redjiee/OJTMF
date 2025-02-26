@@ -141,5 +141,17 @@
     --sidebar-ring: 217.2 91.2% 59.8%}
 }
 
+/* Apply flex for better alignment */
+.flex-col {
+  display: flex;
+  flex-direction: column;
+}
 
+.flex-1 {
+  flex: 1;
+}
+
+.p-6 {
+  padding: 1.5rem;
+}
 

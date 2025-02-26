@@ -51,11 +51,11 @@ const ReferredUser = () => {
 
   return (
     <SidebarProvider>
-      <div className="flex">
+      <div className="flex flex-col lg:flex-row min-h-screen">
         <AppSidebar />
-        <main className="flex-1 p-6 bg-gray-100 flex flex-col">
+        <main className="flex-1 p-6 bg-gray-100 flex flex-col overflow-hidden">
           {/* Top Navigation Buttons */}
-          <div className="flex space-x-4 mb-6">
+          <div className="flex flex-wrap space-x-4 mb-6">
             <Button variant="default" onClick={() => navigate(`/referred-users/${selectedUser.id}`)} className="bg-blue-600 text-white">
               Referred User
             </Button>
@@ -70,11 +70,12 @@ const ReferredUser = () => {
             </Button>
           </div>
 
-          <div className="flex flex-1">
+          <div className="flex flex-col lg:flex-row gap-6">
             {/* Left Side - Profile Info */}
-            <div className="w-1/3 bg-white shadow-lg rounded-lg p-6 mr-6">
+            <div className="w-full lg:w-1/3 bg-white shadow-lg rounded-lg p-6 mb-6 lg:mb-0">
               <div className="flex flex-col items-center">
-                <div className="bg-gray-300 w-32 h-32 rounded-full flex items-center justify-center mb-4">
+                {/* Profile Image */}
+                <div className="bg-gray-1000 w-32 h-32 sm:w-48 sm:h-48 md:w-64 md:h-64 lg:w-80 lg:h-80 rounded-full flex items-center justify-center mb-4">
                   <img src={user.profileImage} alt="User Profile" className="w-full h-full object-cover rounded-full" />
                 </div>
                 <h2 className="text-xl font-bold text-center">{selectedUser.name}</h2>
@@ -89,7 +90,7 @@ const ReferredUser = () => {
             </div>
 
             {/* Right Side - Referred Users Table */}
-            <div className="flex-1 bg-white shadow-lg rounded-lg p-4">
+            <div className="flex-1 bg-white shadow-lg rounded-lg p-6 overflow-auto">
               <h1 className="text-2xl font-bold mb-4">{user?.name}'s Referred Users</h1>
 
               {/* Calendar for filtering */}
@@ -111,37 +112,36 @@ const ReferredUser = () => {
                 )}
               </div>
 
+              {/* Referred Users Table */}
               {filteredUsers.length === 0 ? (
                 <p className="text-center text-gray-500">No referred users found for the selected date.</p>
               ) : (
-                <Table>
-                  <TableHeader>
-                    <TableRow className="bg-gray-200">
-                      <TableHead>Referral ID</TableHead>
-                      <TableHead>Referred User</TableHead>
-                      <TableHead>Contact Number</TableHead>
-                      <TableHead>City</TableHead>
-                      <TableHead>Status</TableHead>
-                      <TableHead>Date Joined</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {filteredUsers.map((ref) => (
-                      <TableRow
-                        key={ref.id}
-                        className="cursor-pointer hover:bg-gray-100"
-                        onClick={() => handleSelectUser(ref)}
-                      >
-                        <TableCell>{ref.id}</TableCell>
-                        <TableCell>{ref.name}</TableCell>
-                        <TableCell>{ref.contact}</TableCell>
-                        <TableCell>{ref.city}</TableCell>
-                        <TableCell>Active</TableCell>
-                        <TableCell>{format(ref.dateJoined, "PPP")}</TableCell>
+                <div className="overflow-x-auto max-w-full">
+                  <Table>
+                    <TableHeader>
+                      <TableRow className="bg-gray-200">
+                        <TableHead>Referral ID</TableHead>
+                        <TableHead>Referred User</TableHead>
+                        <TableHead>Contact Number</TableHead>
+                        <TableHead>City</TableHead>
+                        <TableHead>Status</TableHead>
+                        <TableHead>Date Joined</TableHead>
                       </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
+                    </TableHeader>
+                    <TableBody>
+                      {filteredUsers.map((ref) => (
+                        <TableRow key={ref.id} className="cursor-pointer hover:bg-gray-100" onClick={() => handleSelectUser(ref)}>
+                          <TableCell>{ref.id}</TableCell>
+                          <TableCell>{ref.name}</TableCell>
+                          <TableCell>{ref.contact}</TableCell>
+                          <TableCell>{ref.city}</TableCell>
+                          <TableCell>Active</TableCell>
+                          <TableCell>{format(ref.dateJoined, "PPP")}</TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </div>
               )}
             </div>
           </div>

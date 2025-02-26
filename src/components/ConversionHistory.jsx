@@ -49,7 +49,7 @@ const ConversionHistory = () => {
     <SidebarProvider>
       <div className="flex">
         <AppSidebar />
-        <main className="flex-1 p-6 bg-gray-100 flex flex-col">
+        <main className="flex-1 p-3 bg-gray-100 flex flex-col">
           {/* Top Navigation Buttons */}
           <div className="flex space-x-4 mb-6">
             <Button variant="outline" onClick={() => navigate(`/referred-users/${user.id}`)}>
@@ -71,7 +71,7 @@ const ConversionHistory = () => {
             <div className="w-1/3 bg-white shadow-lg rounded-lg p-6 mr-6">
               <div className="flex flex-col items-center">
                 {/* Profile Image */}
-                <div className="bg-gray-300 w-32 h-32 rounded-full flex items-center justify-center mb-4">
+                <div className="bg-gray-1000 w-32 h-32 sm:w-48 sm:h-48 md:w-64 md:h-64 lg:w-80 lg:h-80 rounded-full flex items-center justify-center mb-4">
                   <img src={user.profileImage} alt="User Profile" className="w-full h-full object-cover rounded-full" />
                 </div>
                 <h2 className="text-xl font-bold text-center">{user.name}</h2>
@@ -86,14 +86,14 @@ const ConversionHistory = () => {
             </div>
 
             {/* Right Side - Calendar & Conversion History Table */}
-            <div className="flex-1 bg-white shadow-lg rounded-lg p-4">
+            <div className="flex-1 bg-white shadow-lg rounded-lg p-6 space-y-6">
               <h1 className="text-2xl font-bold mb-4">Conversion History</h1>
 
               {/* Calendar for filtering */}
-              <div className="flex items-center mb-4 space-x-4">
+              <div className="flex items-center mb-6 space-x-4">
                 <Popover>
                   <PopoverTrigger asChild>
-                    <Button variant="outline">
+                    <Button variant="outline" className="px-6 py-2 text-lg">
                       {selectedDate ? format(selectedDate, "PPP") : "Select Conversion Date"}
                     </Button>
                   </PopoverTrigger>
@@ -102,45 +102,47 @@ const ConversionHistory = () => {
                   </PopoverContent>
                 </Popover>
                 {selectedDate && (
-                  <Button variant="ghost" onClick={() => setSelectedDate(null)}>
+                  <Button variant="ghost" onClick={() => setSelectedDate(null)} className="px-6 py-2 text-lg">
                     Reset Filter
                   </Button>
                 )}
               </div>
 
+              {/* Conversion History Table */}
               {filteredConversions.length === 0 ? (
                 <p className="text-center text-gray-500">No conversions available for the selected date.</p>
               ) : (
-                <Table>
-                  <TableHeader>
-                    <TableRow className="bg-gray-200">
-                      <TableHead>Conversion ID</TableHead>
-                      <TableHead>Member Name</TableHead>
-                      <TableHead>Conversion Type</TableHead>
-                      <TableHead>Points Used</TableHead>
-                      <TableHead>Equivalent Value</TableHead>
-                      <TableHead>Date Converted</TableHead>
-                      <TableHead>Status</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {filteredConversions.map((conversion) => (
-                      <TableRow key={conversion.id} className="cursor-pointer hover:bg-gray-100">
-                        <TableCell>{conversion.id}</TableCell>
-                        <TableCell>{conversion.memberName}</TableCell>
-                        <TableCell>{conversion.type}</TableCell>
-                        <TableCell>{conversion.pointsUsed}</TableCell>
-                        <TableCell>{conversion.equivalentValue}</TableCell>
-                        <TableCell>{format(conversion.date, "PPP")}</TableCell>
-                        <TableCell>{conversion.status}</TableCell>
+                <div className="overflow-auto">
+                  <Table>
+                    <TableHeader>
+                      <TableRow className="bg-gray-200">
+                        <TableHead>Conversion ID</TableHead>
+                        <TableHead>Member Name</TableHead>
+                        <TableHead>Conversion Type</TableHead>
+                        <TableHead>Points Used</TableHead>
+                        <TableHead>Equivalent Value</TableHead>
+                        <TableHead>Date Converted</TableHead>
+                        <TableHead>Status</TableHead>
                       </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
+                    </TableHeader>
+                    <TableBody>
+                      {filteredConversions.map((conversion) => (
+                        <TableRow key={conversion.id} className="cursor-pointer hover:bg-gray-100">
+                          <TableCell>{conversion.id}</TableCell>
+                          <TableCell>{conversion.memberName}</TableCell>
+                          <TableCell>{conversion.type}</TableCell>
+                          <TableCell>{conversion.pointsUsed}</TableCell>
+                          <TableCell>{conversion.equivalentValue}</TableCell>
+                          <TableCell>{format(conversion.date, "PPP")}</TableCell>
+                          <TableCell>{conversion.status}</TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </div>
               )}
             </div>
           </div>
-
         </main>
       </div>
     </SidebarProvider>
