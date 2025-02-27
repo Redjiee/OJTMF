@@ -10,52 +10,44 @@ import { format, isSameDay } from "date-fns";
 
 const ReferredUser = () => {
   const navigate = useNavigate();
-  const { id } = useParams(); // Extract memberId from the URL
+  const { id } = useParams();
   const [user, setUser] = useState(null);
   const [referredUsers, setReferredUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
-  const [selectedDate, setSelectedDate] = useState(null); // Store selected date for filtering
+  const [selectedDate, setSelectedDate] = useState(null);
 
-  // Example mock users (replace with real data)
-  const mockUsers = [
-    { id: 1, name: "Redjie De Jesus", email: "redjie@gmail.com", contact: "123-456-7890", city: "Bulacan", country: "Philippines", about: "Total Transactions: 10", qr: "🔳 Profile", profileImage: "/taragis.png" },
-    { id: 2, name: "Lebron James", email: "lebron@gmail.com", contact: "987-654-3210", city: "Los Angeles", country: "USA", about: "Total Transactions: 5", qr: "🔳 Profile", profileImage: "/taragis.png" },
-    { id: 3, name: "Robo Kap", email: "robo@gmail.com", contact: "555-555-5555", city: "Subic", country: "Philippines", about: "Total Transactions: 3", qr: "🔳 Profile", profileImage: "/taragis.png" },
-  ];
-
-  // Example mock referred users (replace with real data)
-  const mockReferredUsers = [
-    { id: 101, name: "Alice Smith", email: "alice@example.com", contact: "123-456-7890", city: "Los Angeles", country: "USA", about: "Marketing Specialist", qr: "🔳 Alice", dateJoined: new Date(2025, 1, 26) },
-    { id: 102, name: "Bob Johnson", email: "bob@example.com", contact: "987-654-3210", city: "Chicago", country: "USA", about: "Sales Expert", qr: "🔳 Bob", dateJoined: new Date(2025, 1, 25) },
-    { id: 103, name: "Charlie Brown", email: "charlie@example.com", contact: "555-123-4567", city: "Miami", country: "USA", about: "Software Engineer", qr: "🔳 Charlie", dateJoined: new Date(2025, 1, 24) },
-  ];
-
-  // Find the user based on the memberId from the URL
   useEffect(() => {
-    const selectedUser = mockUsers.find(user => user.id === parseInt(id)); // Extract memberId from URL
-    setUser(selectedUser);
-    setReferredUsers(mockReferredUsers); // Fetch referred users (replace with real data)
-    setSelectedUser(selectedUser);
-  }, [id]); // Re-run the effect when the memberId changes
+    const mockUsers = [
+      { id: 1, name: "Redjie De Jesus", email: "redjie@gmail.com", contact: "123-456-7890", city: "Bulacan", country: "Philippines", about: "Total Referrals: 10", profileImage: "/taragis.png", qrImage: "/qr1.png" },
+      { id: 2, name: "Lebron James", email: "lebron@gmail.com", contact: "987-654-3210", city: "Los Angeles", country: "USA", about: "Total Referrals: 3", profileImage: "/taragis.png", qrImage: "/qr1.png" },
+      { id: 3, name: "Robo Kap", email: "robo@gmail.com", contact: "555-555-5555", city: "Subic", country: "Philippines", about: "Total Referrals: 3", profileImage: "/taragis.png", qrImage: "/q1.png" },
+    ];
 
-  // Filter referred users based on selected date
+    const mockReferredUsers = [
+      { id: 101, name: "Alice Smith", contact: "123-456-7890", city: "Los Angeles", status: "Active", dateJoined: new Date(2025, 1, 26), additionalInfo: "Gold Member" },
+      { id: 102, name: "Bob Johnson", contact: "987-654-3210", city: "Chicago", status: "Inactive", dateJoined: new Date(2025, 1, 25), additionalInfo: "Silver Member" },
+      { id: 103, name: "Charlie Brown", contact: "555-123-4567", city: "Miami", status: "Active", dateJoined: new Date(2025, 1, 24), additionalInfo: "Bronze Member" },
+    ];
+
+    const selectedUser = mockUsers.find(user => user.id === parseInt(id));
+    setUser(selectedUser);
+    setReferredUsers(mockReferredUsers);
+    setSelectedUser(selectedUser);
+  }, [id]);
+
   const filteredUsers = selectedDate
     ? referredUsers.filter((user) => isSameDay(user.dateJoined, selectedDate))
     : referredUsers;
-
-  const handleSelectUser = (refUser) => {
-    setSelectedUser(refUser);
-  };
 
   if (!selectedUser) return <p className="text-center">Loading user data...</p>;
 
   return (
     <SidebarProvider>
-      <div className="flex flex-col lg:flex-row min-h-screen">
+      <div className="flex">
         <AppSidebar />
-        <main className="flex-1 p-6 bg-gray-100 flex flex-col overflow-hidden">
+        <main className="flex-1 p-6 bg-gray-100 flex flex-col">
           {/* Top Navigation Buttons */}
-          <div className="flex flex-wrap space-x-4 mb-6">
+          <div className="flex space-x-4 mb-6">
             <Button variant="default" onClick={() => navigate(`/referred-users/${selectedUser.id}`)} className="bg-blue-600 text-white">
               Referred User
             </Button>
@@ -70,30 +62,27 @@ const ReferredUser = () => {
             </Button>
           </div>
 
-          <div className="flex flex-col lg:flex-row gap-6">
+          <div className="flex flex-1">
             {/* Left Side - Profile Info */}
-            <div className="w-full lg:w-1/3 bg-white shadow-lg rounded-lg p-6 mb-6 lg:mb-0">
+            <div className="w-1/3 bg-white shadow-lg rounded-lg p-6 mr-6">
               <div className="flex flex-col items-center">
-                {/* Profile Image */}
                 <div className="bg-gray-1000 w-32 h-32 sm:w-48 sm:h-48 md:w-64 md:h-64 lg:w-80 lg:h-80 rounded-full flex items-center justify-center mb-4">
                   <img src={user.profileImage} alt="User Profile" className="w-full h-full object-cover rounded-full" />
                 </div>
                 <h2 className="text-xl font-bold text-center">{selectedUser.name}</h2>
                 <p className="text-gray-600 text-center">{selectedUser.city}, {selectedUser.country}</p>
                 <p className="font-semibold text-center">{selectedUser.about}</p>
-              </div>
-              <div className="mt-6 border-t pt-4">
-                <h3 className="text-lg font-semibold">Contact Info</h3>
-                <p><strong>Email:</strong> {selectedUser.email}</p>
-                <p><strong>Phone:</strong> {selectedUser.contact}</p>
+                <div className="mt-4">
+                  <img src={user.qrImage} alt="QR Code" className="w-32 h-32" />
+                </div>
               </div>
             </div>
 
             {/* Right Side - Referred Users Table */}
-            <div className="flex-1 bg-white shadow-lg rounded-lg p-6 overflow-auto">
+            <div className="flex-1 bg-white shadow-lg rounded-lg p-6">
               <h1 className="text-2xl font-bold mb-4">{user?.name}'s Referred Users</h1>
 
-              {/* Calendar for filtering */}
+              {/* Calendar for Filtering */}
               <div className="flex items-center mb-4 space-x-4">
                 <Popover>
                   <PopoverTrigger asChild>
@@ -113,36 +102,32 @@ const ReferredUser = () => {
               </div>
 
               {/* Referred Users Table */}
-              {filteredUsers.length === 0 ? (
-                <p className="text-center text-gray-500">No referred users found for the selected date.</p>
-              ) : (
-                <div className="overflow-x-auto max-w-full">
-                  <Table>
-                    <TableHeader>
-                      <TableRow className="bg-gray-200">
-                        <TableHead>Referral ID</TableHead>
-                        <TableHead>Referred User</TableHead>
-                        <TableHead>Contact Number</TableHead>
-                        <TableHead>City</TableHead>
-                        <TableHead>Status</TableHead>
-                        <TableHead>Date Joined</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {filteredUsers.map((ref) => (
-                        <TableRow key={ref.id} className="cursor-pointer hover:bg-gray-100" onClick={() => handleSelectUser(ref)}>
-                          <TableCell>{ref.id}</TableCell>
-                          <TableCell>{ref.name}</TableCell>
-                          <TableCell>{ref.contact}</TableCell>
-                          <TableCell>{ref.city}</TableCell>
-                          <TableCell>Active</TableCell>
-                          <TableCell>{format(ref.dateJoined, "PPP")}</TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </div>
-              )}
+              <Table>
+                <TableHeader>
+                  <TableRow className="bg-gray-200">
+                    <TableHead className="text-center whitespace-nowrap">Referral ID</TableHead>
+                    <TableHead className="text-center whitespace-nowrap">Referred User</TableHead>
+                    <TableHead className="text-center whitespace-nowrap">Contact Number</TableHead>
+                    <TableHead className="text-center whitespace-nowrap">City</TableHead>
+                    <TableHead className="text-center whitespace-nowrap">Status</TableHead>
+                    <TableHead className="text-center whitespace-nowrap">Date Joined</TableHead>
+                    <TableHead className="text-center whitespace-nowrap">Additional Info</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {filteredUsers.map((ref) => (
+                    <TableRow key={ref.id} className="cursor-pointer hover:bg-gray-100">
+                      <TableCell className="text-center whitespace-nowrap">{ref.id}</TableCell>
+                      <TableCell className="text-center whitespace-nowrap">{ref.name}</TableCell>
+                      <TableCell className="text-center whitespace-nowrap">{ref.contact}</TableCell>
+                      <TableCell className="text-center whitespace-nowrap">{ref.city}</TableCell>
+                      <TableCell className="text-center whitespace-nowrap">{ref.status}</TableCell>
+                      <TableCell className="text-center whitespace-nowrap">{format(ref.dateJoined, "PPP")}</TableCell>
+                      <TableCell className="text-center whitespace-nowrap">{ref.additionalInfo}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
             </div>
           </div>
         </main>

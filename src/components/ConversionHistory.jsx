@@ -20,7 +20,7 @@ const ConversionHistory = () => {
     const mockUsers = [
       { id: 1, name: "Redjie De Jesus", email: "redjie@gmail.com", contact: "123-456-7890", city: "Bulacan", country: "Philippines", about: "Total Conversions: 5", profileImage: "/taragis.png" },
       { id: 2, name: "Lebron James", email: "lebron@gmail.com", contact: "987-654-3210", city: "Los Angeles", country: "USA", about: "Total Conversions: 3", profileImage: "/taragis.png" },
-      { id: 3, name: "Robo Kap", email: "robo@gmail.com", contact: "555-555-5555", city: "Subic", country: "Philippines", about: "Total Conversions: 2", profileImage: "/taragis.png" },
+      { id: 3, name: "Robo Kap", email: "robo@gmail.com", contact: "555-555-5555", city: "Subic", country: "Philippines", about: "Total Conversions: 3", profileImage: "/taragis.png" },
     ];
 
     // Mock conversion data
@@ -113,32 +113,32 @@ const ConversionHistory = () => {
                 <p className="text-center text-gray-500">No conversions available for the selected date.</p>
               ) : (
                 <div className="overflow-auto">
-                  <Table>
-                    <TableHeader>
-                      <TableRow className="bg-gray-200">
-                        <TableHead>Conversion ID</TableHead>
-                        <TableHead>Member Name</TableHead>
-                        <TableHead>Conversion Type</TableHead>
-                        <TableHead>Points Used</TableHead>
-                        <TableHead>Equivalent Value</TableHead>
-                        <TableHead>Date Converted</TableHead>
-                        <TableHead>Status</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {filteredConversions.map((conversion) => (
-                        <TableRow key={conversion.id} className="cursor-pointer hover:bg-gray-100">
-                          <TableCell>{conversion.id}</TableCell>
-                          <TableCell>{conversion.memberName}</TableCell>
-                          <TableCell>{conversion.type}</TableCell>
-                          <TableCell>{conversion.pointsUsed}</TableCell>
-                          <TableCell>{conversion.equivalentValue}</TableCell>
-                          <TableCell>{format(conversion.date, "PPP")}</TableCell>
-                          <TableCell>{conversion.status}</TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
+                <Table>
+            <TableHeader>
+              <TableRow className="bg-gray-200">
+                <TableHead className="text-center whitespace-nowrap">Conversion ID</TableHead>
+                <TableHead className="text-center whitespace-nowrap">Member Name</TableHead>
+                <TableHead className="text-center whitespace-nowrap">Conversion Type</TableHead>
+                <TableHead className="text-center whitespace-nowrap">Points Used</TableHead>
+                <TableHead className="text-center whitespace-nowrap">Equivalent Value</TableHead>
+                <TableHead className="text-center whitespace-nowrap">Date Converted</TableHead>
+                <TableHead className="text-center whitespace-nowrapr">Status</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {filteredConversions.map((conversion) => (
+                <TableRow key={conversion.id} className="cursor-pointer hover:bg-gray-100">
+                  <TableCell className="text-center whitespace-nowrap">{conversion.id}</TableCell>
+                  <TableCell className="text-center whitespace-nowrap">{conversion.memberName}</TableCell>
+                  <TableCell className="text-center whitespace-nowrap">{conversion.type}</TableCell>
+                  <TableCell className="text-center whitespace-nowrap">{conversion.pointsUsed}</TableCell>
+                  <TableCell className="text-center whitespace-nowrap">{conversion.equivalentValue}</TableCell>
+                  <TableCell className="text-center whitespace-nowrap">{format(conversion.date, "PPP")}</TableCell>
+                  <TableCell className="text-center whitespace-nowrap">{conversion.status}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
                 </div>
               )}
             </div>

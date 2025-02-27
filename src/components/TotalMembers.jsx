@@ -17,89 +17,87 @@ function TotalMembers() {
 
   return (
     <SidebarProvider>
-      <div className="flex flex-col lg:flex-row">
+      <div className="flex h-screen w-screen">
         {/* Sidebar */}
-        <div className="lg:block lg:w-1/4 w-full">
-          <AppSidebar />
-        </div>
+        <AppSidebar />
 
         {/* Main Content */}
-        <main className="flex-1 p-6 ml-auto">
-          <h2 className="text-xl font-semibold mb-4">Total Members</h2>
-          <div className="bg-white shadow-md rounded-lg p-4 overflow-x-auto">
-  <Table className="min-w-full">
-    <TableHeader>
-      <TableRow>
-        <TableHead>Qr CODE</TableHead>
-        <TableHead>Name</TableHead>
-        <TableHead>Gender</TableHead>
-        <TableHead className="whitespace-nowrap">Phone Number</TableHead>
-        <TableHead className="whitespace-nowrap">Date Registered</TableHead>
-        <TableHead className="whitespace-nowrap">KYC Verified</TableHead>
-        <TableHead className="whitespace-nowrap">Activated</TableHead>
-        <TableHead className="whitespace-nowrap">Actions</TableHead>
-      </TableRow>
-    </TableHeader>
-    <TableBody>
-      {members.map((member) => (
-        <TableRow key={member.id}>
-          <TableCell className="w-16 lg:w-32">
-            <img src={member.qr} alt={`QR for ${member.name}`} className="w-full h-auto" />
-          </TableCell>
-          <TableCell className="whitespace-nowrap">{member.name}</TableCell>
-          <TableCell className="whitespace-nowrap">{member.gender}</TableCell>
-          <TableCell className="whitespace-nowrap text-left min-w-max">{member.phone}</TableCell>
-          <TableCell className="whitespace-nowrap">{member.dateRegistered}</TableCell>
-          <TableCell className="whitespace-nowrap">
-            {member.kycVerified ? (
-              <span className="text-green-500">✔ Yes</span>
-            ) : (
-              <span className="text-red-500">✘ No</span>
-            )}
-          </TableCell>
-          <TableCell className="whitespace-nowrap">
-            {member.activated ? (
-              <span className="text-green-500">✔ Yes</span>
-            ) : (
-              <span className="text-red-500">✘ No</span>
-            )}
-          </TableCell>
-          <TableCell className="whitespace-nowrap text-center">
-          {/* Three-dot actions */}
-  <Popover>
-    <PopoverTrigger asChild>
-      <Button variant="outline" className="whitespace-nowrap text-left min-w-max">
-        <span className="text-lg">...</span>
-      </Button>
-    </PopoverTrigger>
-    <PopoverContent>
-      <ul className="space-y-2">
-        <li>
-          <Button
-            variant="link"
-            onClick={() => alert(`KYC URL copied for ${member.name}`)} // This is a placeholder, you can implement the real "Copy KYC URL" logic.
-          >
-            Copy KYC URL
-          </Button>
-        </li>
-        <li>
-          <Button
-            variant="link"
-            onClick={() => navigate(`/profile/${member.id}`, { state: { memberId: member.id } })}
-          >
-            View Profile
-          </Button>
-        </li>
-      </ul>
-    </PopoverContent>
-  </Popover>
-</TableCell>
-        </TableRow>
-      ))}
-    </TableBody>
-  </Table>
-</div>
+        <main className="flex-1 p-10 bg-gray-100">
+          <h2 className="text-3xl font-semibold mb-6">Total Members</h2>
 
+          <div className="bg-white shadow-lg rounded-lg p-6 overflow-x-auto w-full">
+            <Table className="w-full">
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="text-center">Qr CODE</TableHead>
+                  <TableHead className="text-center">Name</TableHead>
+                  <TableHead className="text-center">Gender</TableHead>
+                  <TableHead className="text-center whitespace-nowrap">Phone Number</TableHead>
+                  <TableHead className="text-center whitespace-nowrap">Date Registered</TableHead>
+                  <TableHead className="text-center whitespace-nowrap">KYC Verified</TableHead>
+                  <TableHead className="text-center whitespace-nowrap">Activated</TableHead>
+                  <TableHead className="text-center whitespace-nowrap">Actions</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {members.map((member) => (
+                  <TableRow key={member.id}>
+                    <TableCell className="w-20 lg:w-32 text-center">
+                      <img src={member.qr} alt={`QR for ${member.name}`} className="w-16 h-16 lg:w-24 lg:h-24 mx-auto" />
+                    </TableCell>
+                    <TableCell className="text-center">{member.name}</TableCell>
+                    <TableCell className="text-center">{member.gender}</TableCell>
+                    <TableCell className="text-center">{member.phone}</TableCell>
+                    <TableCell className="text-center">{member.dateRegistered}</TableCell>
+                    <TableCell className="text-center">
+                      {member.kycVerified ? (
+                        <span className="text-green-500 font-semibold">✔ Yes</span>
+                      ) : (
+                        <span className="text-red-500 font-semibold">✘ No</span>
+                      )}
+                    </TableCell>
+                    <TableCell className="text-center">
+                      {member.activated ? (
+                        <span className="text-green-500 font-semibold">✔ Yes</span>
+                      ) : (
+                        <span className="text-red-500 font-semibold">✘ No</span>
+                      )}
+                    </TableCell>
+                    <TableCell className="text-center">
+                      {/* Three-dot actions */}
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <Button variant="outline">
+                            <span className="text-lg">...</span>
+                          </Button>
+                        </PopoverTrigger>
+                        <PopoverContent>
+                          <ul className="space-y-2">
+                            <li>
+                              <Button
+                                variant="link"
+                                onClick={() => alert(`KYC URL copied for ${member.name}`)}
+                              >
+                                Copy KYC URL
+                              </Button>
+                            </li>
+                            <li>
+                              <Button
+                                variant="link"
+                                onClick={() => navigate(`/profile/${member.id}`, { state: { memberId: member.id } })}
+                              >
+                                View Profile
+                              </Button>
+                            </li>
+                          </ul>
+                        </PopoverContent>
+                      </Popover>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
         </main>
       </div>
     </SidebarProvider>
